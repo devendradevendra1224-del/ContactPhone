@@ -1,0 +1,58 @@
+import csv
+
+filename = "contacts.csv"
+
+def add_contact(name, phone, email):
+    with open(filename, "a", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerow([name, phone, email])
+    print("Contact added successfully!")
+
+def view_contacts():
+    try:
+        with open(filename, "r") as file:
+            reader = csv.reader(file)
+            print("\n--- Contact List ---")
+            for row in reader:
+                print(f"Name: {row[0]}, Phone: {row[1]}, Email: {row[2]}")
+    except FileNotFoundError:
+        print("No contacts found!")
+
+def search_contact(name):
+    try:
+        with open(filename, "r") as file:
+            reader = csv.reader(file)
+            found = False
+            for row in reader:
+                if row[0].lower() == name.lower():
+                    print(f"Found: Name: {row[0]}, Phone: {row[1]}, Email: {row[2]}")
+                    found = True
+            if not found:
+                print("Contact not found.")
+    except FileNotFoundError:
+        print("No contacts found!")
+
+if __name__ == "__main__":
+    while True:
+        print("\n--- Contact Book ---")
+        print("1. Add Contact")
+        print("2. View Contacts")
+        print("3. Search Contact")
+        print("4. Exit")
+
+        choice = input("Enter choice: ")
+
+        if choice == "1":
+            name = input("Enter name: ")
+            phone = input("Enter phone: ")
+            email = input("Enter email: ")
+            add_contact(name, phone, email)
+        elif choice == "2":
+            view_contacts()
+        elif choice == "3":
+            name = input("Enter name to search: ")
+            search_contact(name)
+        elif choice == "4":
+            break
+        else:
+            print("Invalid choice, try again.")
